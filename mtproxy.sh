@@ -495,8 +495,8 @@ View(){
     echo -e " 端口\t: ${Green}${PORT}${Nc}"
     echo -e " 密匙\t: ${Green}${SECURE}${Nc}"
     [[ ! -z "${TAG}" ]] && echo -e " TAG \t: ${Green}${TAG}${Nc}"
-    echo -e " IPv4 链接\t: ${Red}tg://proxy?server=${IPv4}&port=${PORT}&secret=${SECURE}${Nc}"
     echo -e " IPv4 链接\t: ${Red}https://t.me/proxy?server=${IPv4}&port=${PORT}&secret=${SECURE}${Nc}"
+    echo -e " IPv4 链接\t: ${Red}tg://proxy?server=${IPv4}&port=${PORT}&secret=${SECURE}${Nc}"
     [[ ! -z "${IPv6}" ]] && echo -e " IPv6 链接\t: ${Red}tg://proxy?server=${IPv6}&port=${PORT}&secret=${SECURE}${Nc}"
     [[ ! -z "${IPv6}" ]] && echo -e " IPv6 链接\t: ${Red}https://t.me/proxy?server=${IPv6}&port=${PORT}&secret=${SECURE}${Nc}"
     echo
