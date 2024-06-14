@@ -58,15 +58,15 @@ check_release(){
     elif [[ ! "${release}" =~ ^(kali|ubuntu|debian|almalinux|rocky|alpine)$ ]]; then
         echo -e "${Error} 抱歉，此脚本不支持您的操作系统。"
         echo -e "${Info} 请确保您使用的是以下支持的操作系统之一："
-        echo -e "-${Red} Ubuntu ${Nc}"
+        echo -e "-${Red} Ubuntu${Nc} "
         echo -e "-${Red} Debian ${Nc}"
-        echo -e "-${Red} CentOS ${Nc}"
-        echo -e "-${Red} Fedora ${Nc}"
+        echo -e "-${Red} CentOS 8+${Nc}"
+        echo -e "-${Red} Fedora 25+${Nc}"
         echo -e "-${Red} Kali ${Nc}"
         echo -e "-${Red} AlmaLinux ${Nc}"
         echo -e "-${Red} Rocky Linux ${Nc}"
-        echo -e "-${Red} Oracle Linux ${Nc}"
-        echo -e "-${Red} Alpine Linux ${Nc}"
+        echo -e "-${Red} Oracle Linux 8+${Nc}"
+        echo -e "-${Red} Alpine Linux${Nc}"
         exit 1
     fi
 }
