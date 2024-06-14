@@ -469,7 +469,7 @@ IPv6：${IPv6}
 }
 
 get_public_ip(){
-    InFaces=($(ifconfig -s | awk '{print $1}' | grep -E '^(eth|ens|eno|esp|enp|venet|vif)'))
+    InFaces=($(netstat -i | awk '{print $1}' | grep -E '^(eth|ens|eno|esp|enp|venet|vif)'))
 
     for i in "${InFaces[@]}"; do # 从网口循环获取IP
         Public_IPv4=$(curl -s4 --interface "$i" ip.gs)
