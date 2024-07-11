@@ -40,6 +40,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker buildx build --push \
+            --file docker/Dockerfile \
             --platform linux/amd64 \
             --tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} \
             --tag ghcr.io/${{ github.repository }}:latest .
