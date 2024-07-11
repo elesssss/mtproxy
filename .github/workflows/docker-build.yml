@@ -34,12 +34,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.pack_token }}
 
+      - name: Set version from input
+        run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+
       - name: Build and push Docker image
         run: |
           docker buildx build --push \
             --file docker/Dockerfile \
             --platform linux/amd64 \
-            --tag ghcr.io/${{ github.repository }}:${{ github.event.inputs.version }} \
+            --tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} \
             --tag ghcr.io/${{ github.repository }}:latest .
 
       - name: Cleanup
