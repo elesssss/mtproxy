@@ -14,11 +14,17 @@ docker run -tid \
   -p 8443:8443 \
   ghcr.io/elesssss/mtproxy:latest
 ```
-## 可以加入一下变量，例如
+# 还可以加入以下变量启动，例如
 ```
-SECURE=123c578bd4da8744a68fb56000b35854
-DOMAIN=itunes.apple.com
-TAG=49a8b0578f87744eed2986c425445661
+docker run -tid \
+  --name mtproxy \
+  --restart=always \
+  --privileged=true \
+  -p 8443:8443 \
+  -e SECURE=123c578bd4da8744a68fb56000b35854
+  -e DOMAIN=itunes.apple.com
+  -e TAG=49a8b0578f87744eed2986c425445661
+  ghcr.io/elesssss/mtproxy:latest
 ```
 - SECURE 在vps使用以下命令生成
 ```
