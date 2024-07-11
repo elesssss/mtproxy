@@ -35,4 +35,4 @@ elif [ -n "$SECURE" ] && [ -n "$DOMAIN" ] && [ -n "$TAG" ]; then
     sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /home/mtproxy/config.py
 fi
 
-exec python3 /home/MTProxy/mtproxy.py
+exec python3 /home/mtproxy/mtproxy.py
