@@ -39,8 +39,8 @@ jobs:
           docker buildx build --push \
             --file docker/Dockerfile \
             --platform linux/amd64 \
-            --tag ghcr.io/${{ github.repository }}:${{ github.event.inputs.version }} \
-            --tag ghcr.io/${{ github.repository }}:latest .
+            --tag ghcr.io/elesssss/mtproxy:${{ github.event.inputs.version }} \
+            --tag ghcr.io/elesssss/mtproxy:latest .
 
       - name: Cleanup
         run: |
