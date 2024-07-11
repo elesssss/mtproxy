@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN apt update -y && \
     apt install -y openssl python3 python3-cryptography && \
