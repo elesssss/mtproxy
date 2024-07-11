@@ -1,4 +1,4 @@
-name: Docker Build and Publish
+name: Docker Publish
 
 on:
   workflow_dispatch:
@@ -32,7 +32,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.pack_token }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set version from input
         run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
@@ -40,7 +40,6 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker buildx build --push \
-            --file docker/Dockerfile \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x \
             --tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} \
             --tag ghcr.io/${{ github.repository }}:latest .
