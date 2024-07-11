@@ -40,8 +40,7 @@ jobs:
             --file docker/Dockerfile \
             --platform linux/amd64 \
             --tag ghcr.io/${{ github.repository }}:${{ github.event.inputs.version }} \
-            --tag ghcr.io/${{ github.repository }}:latest \
-            .
+            --tag ghcr.io/${{ github.repository }}:latest .
 
       - name: Cleanup
         run: |
