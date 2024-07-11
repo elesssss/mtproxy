@@ -1,4 +1,4 @@
-FROM ubuntu:20.04 TLS
+FROM ubuntu:20.04TLS
 
 RUN apt update -y && \
     apt install -y openssl python3 python3-cryptography && \
