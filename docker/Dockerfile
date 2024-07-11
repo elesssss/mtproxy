@@ -10,7 +10,7 @@ RUN useradd -u 10000 mtproxy
 
 WORKDIR /home/mtproxy/
 
-COPY --chown=mtproxy:mtproxy mtproxy.py config.py entrypoint.sh ./
+COPY --chown=mtproxy:mtproxy mtproxy.py config.py entrypoint.sh /home/mtproxy/
 
 RUN chmod +x entrypoint.sh
 
