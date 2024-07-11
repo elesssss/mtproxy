@@ -20,9 +20,9 @@ SECURE=123c578bd4da8744a68fb56000b35854
 DOMAIN=itunes.apple.com
 TAG=49a8b0578f87744eed2986c425445661
 ```
-SECURE 在vps使用以下命令生成
+- SECURE 在vps使用以下命令生成
 ```
 openssl rand -hex 16
 ```
-DOMAIN 找一个没有被墙的网站的域名
-TAG 自己从机器人 https://t.me/MTProxybot 获取
+- DOMAIN 找一个没有被墙的网站的域名
+- TAG 自己从机器人 https://t.me/MTProxybot 获取
