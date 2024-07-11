@@ -43,16 +43,3 @@ jobs:
       - name: Cleanup
         run: |
           docker buildx prune -f
-
-      - name: Create GitHub release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.event.inputs.version }}
-          release_name: Release ${{ github.event.inputs.version }}
-          body: |
-            Release ${{ github.event.inputs.version }}
-          draft: false
-          prerelease: false
