@@ -1,4 +1,4 @@
-FROM ubuntu:20.04TLS
+FROM debian:12
 
 RUN apt update -y && \
     apt install -y openssl python3 python3-cryptography && \
