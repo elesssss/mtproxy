@@ -31,7 +31,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
@@ -39,8 +39,8 @@ jobs:
           docker buildx build --push \
             --file docker/Dockerfile \
             --platform linux/amd64 \
-            --tag ghcr.io/elesssss/mtproxy:${{ github.event.inputs.version }} \
-            --tag ghcr.io/elesssss/mtproxy:latest .
+            --tag ghcr.io/${{ github.repository }}:${{ github.event.inputs.version }} \
+            --tag ghcr.io/${{ github.repository }}:latest .
 
       - name: Cleanup
         run: |
