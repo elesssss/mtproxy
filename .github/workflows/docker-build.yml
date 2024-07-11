@@ -39,7 +39,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker buildx build --push --public \
+          docker buildx build --push \
             --file docker/Dockerfile \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x \
             --tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} \
