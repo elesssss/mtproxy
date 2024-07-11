@@ -9,9 +9,8 @@ on:
         default: 'latest'
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -27,22 +26,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Log in to GitHub Docker Registry
+      - name: Login to GitHub Packages
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set version from input
-        run: echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.pack_token }}
 
       - name: Build and push Docker image
         run: |
           docker buildx build --push \
             --file docker/Dockerfile \
             --platform linux/amd64 \
-            --tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} \
+            --tag ghcr.io/${{ github.repository }}:${{ github.event.inputs.version }} \
             --tag ghcr.io/${{ github.repository }}:latest .
 
       - name: Cleanup
