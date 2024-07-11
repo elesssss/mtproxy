@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:20.04 TLS
 
 RUN apt update -y && \
     apt install -y openssl python3 python3-cryptography && \
