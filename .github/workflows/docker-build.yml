@@ -33,9 +33,11 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker buildx build --push \
+            --file docker/Dockerfile \
             --platform linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x \
-            --tag $DOCKER_USERNAME/${{ github.repository }}:${{ github.event.inputs.version }} \
-            --tag $DOCKER_USERNAME/${{ github.repository }}:latest .
+            --tag ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}:${{ github.event.inputs.version }} \
+            --tag ${{ secrets.DOCKER_USERNAME }}/${{ github.repository }}:latest \
+            .
 
       - name: Cleanup
         run: |
