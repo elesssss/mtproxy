@@ -12,7 +12,7 @@ docker run -tid \
   --restart=always \
   --privileged=true \
   -p 8443:8443 \
-  ghcr.io/elesssss/mtproxy:latest
+  ghcr.io/elesssss/mtproxy
 ```
 # 支持加入以下变量启动：
 
