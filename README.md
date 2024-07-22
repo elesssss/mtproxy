@@ -30,8 +30,8 @@ docker run -tid \
   --restart=always \
   --privileged=true \
   -p 8443:8443 \
-  -e SECURE=123c578bd4da8744a68fb56000b35854
-  -e DOMAIN=itunes.apple.com
-  -e TAG=49a8b0578f87744eed2986c425445661
+  -e SECURE=123c578bd4da8744a68fb56000b35854  \
+  -e DOMAIN=itunes.apple.com  \
+  -e TAG=49a8b0578f87744eed2986c425445661  \
   ghcr.io/elesssss/mtproxy:latest
 ```
