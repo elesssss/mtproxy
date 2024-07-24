@@ -32,7 +32,7 @@ openssl rand -hex 16
 
 🟢 TAG 从机器人 https://t.me/MTProxybot 获取
 
-### 变量启动示例：
+### ✨变量启动示例：
 ```
 docker run -tid \
   --name mtproxy \
