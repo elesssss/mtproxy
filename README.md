@@ -36,7 +36,7 @@ docker run -tid \
   -e TAG=49a8b0578f87744eed2986c425445661  \
   ghcr.io/elesssss/mtproxy
 ```
-# 查看链接
+# 查看代理链接
 ```
 docker logs mtproxy
 ```
