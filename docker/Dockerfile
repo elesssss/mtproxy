@@ -1,8 +1,8 @@
-FROM debian:12
+FROM alpine:3.10
 
-RUN apt update -y && \
-    apt install -y openssl python3 python3-cryptography && \
-    apt autoremove -y && apt clean all && rm -rf /var/lib/apt/lists/*
+RUN apk update \
+    && apk add --no-cache openssl python3 py3-cryptography \
+    && apk del --purge --no-cache
 
 WORKDIR /home/mtproxy/
 COPY docker/mtproxy.py docker/config.py ./
