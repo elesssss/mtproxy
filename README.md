@@ -13,7 +13,7 @@
 bash <(curl -sSL https://raw.githubusercontent.com/elesssss/mtproxy/main/mtproxy.sh)
 ```
 
-### 🟢Docker部署
+## 🟢Docker部署
 ```
 docker run -tid \
   --name mtproxy \
