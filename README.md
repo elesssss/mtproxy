@@ -11,6 +11,7 @@ docker run -tid \
   --name mtproxy \
   --restart=always \
   --privileged=true \
+  -v /etc/mtproxy:/home/mtproxy \
   -p 8443:8443 \
   ghcr.io/elesssss/mtproxy
 ```
