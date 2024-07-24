@@ -1,6 +1,6 @@
 ## ✨Python版TG代理
 
->适配/amd64/arm64/armv7架构
+>适配/386/amd64/arm64/armv7/armv6/s390架构
 >
 >支持ipv4和ipv6
 >
