@@ -1,11 +1,11 @@
 这可能是目前最方便的MTProxy脚本了！
 
-## MTProxy 一键脚本
+## 🟢一键脚本
 ```
 bash <(curl -sSL https://raw.githubusercontent.com/elesssss/mtproxy/main/mtproxy.sh)
 ```
 
-## docker 启动
+## 🟢Docker部署
 ```
 docker run -tid \
   --name mtproxy \
@@ -34,4 +34,8 @@ docker run -tid \
   -e DOMAIN=itunes.apple.com  \
   -e TAG=49a8b0578f87744eed2986c425445661  \
   ghcr.io/elesssss/mtproxy
+```
+# 查看链接
+```
+docker logs mtp
 ```
