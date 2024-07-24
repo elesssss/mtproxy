@@ -21,6 +21,7 @@ docker run -tid \
 openssl rand -hex 16
 ```
 🟢 DOMAIN 找一个没有被墙的网站的域名
+
 🟢 TAG 从机器人 https://t.me/MTProxybot 获取
 
 # 变量启动示例：
