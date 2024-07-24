@@ -16,12 +16,12 @@ docker run -tid \
 ```
 # 支持加入以下变量启动：
 
-- SECURE 在vps使用以下命令生成
+🟢 SECURE 在vps使用以下命令生成
 ```
 openssl rand -hex 16
 ```
-- DOMAIN 找一个没有被墙的网站的域名
-- TAG 从机器人 https://t.me/MTProxybot 获取
+🟢 DOMAIN 找一个没有被墙的网站的域名
+🟢 TAG 从机器人 https://t.me/MTProxybot 获取
 
 # 变量启动示例：
 ```
@@ -37,5 +37,5 @@ docker run -tid \
 ```
 # 查看链接
 ```
-docker logs mtp
+docker logs mtproxy
 ```
