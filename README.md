@@ -39,8 +39,7 @@ openssl rand -hex 16
 
 先下载配置文件到指定目录，示例为 /etc/mtproxy
 ```
-mkdir -p /etc/mtproxy
-wget 
+wget -P /etc/mtproxy https://raw.githubusercontent.com/elesssss/mtproxy/main/config.py
 ```
 修改配置文件中的各项参数，然后启动容器：
 ```
