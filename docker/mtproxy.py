@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import asyncio
 import socket
 import urllib.parse
@@ -19,7 +20,6 @@ import signal
 import os
 import stat
 import traceback
-
 
 TG_DATACENTER_PORT = 443
 
@@ -101,14 +101,17 @@ config = {}
 
 def init_config():
     global config
-    # we use conf_dict to protect the original config from exceptions when reloading
-    if len(sys.argv) < 2:
-        conf_dict = runpy.run_module("config")
-    elif len(sys.argv) == 2:
-        # launch with own config
-        conf_dict = runpy.run_path(sys.argv[1])
-    else:
-        # undocumented way of launching
+
+    # 设置参数解析
+    parser = argparse.ArgumentParser(description='MTProxy Configuration')
+    parser.add_argument('--config', type=str, help='Path to the config file')
+    args = parser.parse_args()
+
+    # 加载配置文件
+    if args.config:
+        conf_dict = runpy.run_path(args.config)
+    elif len(sys.argv) > 1:
+        # 使用传统方式支持额外参数
         conf_dict = {}
         conf_dict["PORT"] = int(sys.argv[1])
         secrets = sys.argv[2].split(",")
@@ -119,6 +122,9 @@ def init_config():
         if len(sys.argv) > 4:
             conf_dict["TLS_DOMAIN"] = sys.argv[4]
             conf_dict["MODES"] = {"classic": False, "secure": False, "tls": True}
+    else:
+        # 默认加载名为 config 的模块
+        conf_dict = runpy.run_module("config")
 
     conf_dict = {k: v for k, v in conf_dict.items() if k.isupper()}
 
