@@ -13,7 +13,7 @@ Info="${Green}[信息]${Nc}"
 Error="${Red}[错误]${Nc}"
 Tip="${Yellow}[提示]${Nc}"
 
-mtproxy_dir="/var/MTProxy"
+mtproxy_dir="/var/mtproxy"
 mtproxy_file="${mtproxy_dir}/mtproxy.py"
 mtproxy_conf="${mtproxy_dir}/config.py"
 mtproxy_ini="${mtproxy_dir}/config.ini"
@@ -189,21 +189,21 @@ Write_Service(){
     echo -e "${Info} 开始写入 Service..."
     check_release
     if [[ "$release" == "alpine" ]]; then
-        cat >/etc/init.d/MTProxy <<-'EOF'
+        cat >/etc/init.d/mtproxy <<-'EOF'
 #!/sbin/openrc-run
 
-name="MTProxy"
-description="MTProxy service"
+name="mtproxy"
+description="mtproxy service"
 command="/bin/sh"
-command_args="-c 'python3 /var/MTProxy/mtproxy.py > /var/MTProxy/log_mtproxy.log'"
+command_args="-c 'python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.py > /var/mtproxy/log_mtproxy.log'"
 command_background="yes"
 pidfile="/var/run/${RC_SVCNAME}.pid"
 start_stop_daemon_args="--user root:root"
 EOF
-chmod +x /etc/init.d/MTProxy
-rc-update add MTProxy default
+chmod +x /etc/init.d/mtproxy
+rc-update add mtproxy default
 else
-    cat >/lib/systemd/system/MTProxy.service <<-'EOF'
+    cat >/lib/systemd/system/mtproxy.service <<-'EOF'
 [Unit]
 Description=MTProxy
 After=network.target
@@ -211,15 +211,15 @@ After=network.target
 [Service]
 User=root
 Group=root
-WorkingDirectory=/var/MTProxy
-ExecStart=python3 /var/MTProxy/mtproxy.py
+WorkingDirectory=/var/mtproxy
+ExecStart=python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.py
 Restart=on-failure
 RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target
 EOF
-systemctl enable MTProxy
+systemctl enable mtproxy
     fi
 }
 
@@ -342,18 +342,18 @@ Install(){
 start_mtproxy(){
     check_release
     if [[ "$release" == "alpine" ]]; then
-        rc-service MTProxy start >/dev/null 2>&1
+        rc-service mtproxy start >/dev/null 2>&1
     else
-        systemctl start MTProxy.service >/dev/null 2>&1
+        systemctl start mtproxy.service >/dev/null 2>&1
     fi
 }
 
 stop_mtproxy(){
     check_release
     if [[ "$release" == "alpine" ]]; then
-        rc-service MTProxy stop >/dev/null 2>&1
+        rc-service mtproxy stop >/dev/null 2>&1
     else
-        systemctl stop MTProxy.service >/dev/null 2>&1
+        systemctl stop mtproxy.service >/dev/null 2>&1
     fi
 }
 
@@ -415,11 +415,11 @@ Uninstall(){
 
         check_release
         if [[ "$release" == "alpine" ]]; then
-            rc-update del MTProxy default >/dev/null 2>&1
+            rc-update del mtproxy default >/dev/null 2>&1
         else
-            systemctl disable MTProxy.service >/dev/null 2>&1
+            systemctl disable mtproxy.service >/dev/null 2>&1
         fi
-        rm -rf ${mtproxy_dir}  /lib/systemd/system/MTProxy.service /etc/init.d/MTProxy
+        rm -rf ${mtproxy_dir}  /lib/systemd/system/mtproxy.service /etc/init.d/mtproxy
         echo -e "${Info} MTProxy 卸载完成 !"
         echo
     else
@@ -497,9 +497,9 @@ View_Log(){
     check_release
     echo && echo -e "${Tip} 按 ${Red}Ctrl+C${Nc} 终止查看日志。"
     if [[ "$release" == "alpine" ]]; then
-        tail -f /var/MTProxy/log_mtproxy.log
+        tail -f /var/mtproxy/log_mtproxy.log
     else
-        journalctl -u MTProxy -f
+        journalctl -u mtproxy -f
     fi
 }
 
