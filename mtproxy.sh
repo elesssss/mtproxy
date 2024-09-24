@@ -460,12 +460,10 @@ get_public_ip(){
     InFaces=($(netstat -i | awk '{print $1}' | grep -E '^(eth|ens|eno|esp|enp|venet|vif)'))
 
     for i in "${InFaces[@]}"; do # 从网口循环获取IP
-        Public_IPv4=$(curl -s4 --max-time 2 --interface "$i" ip.gs)
-        Public_IPv6=$(curl -s6 --max-time 2 --interface "$i" ip.gs)
+        IPv4=$(curl -s4 --max-time 2 --interface "$i" ip.gs)
+        IPv6=$(curl -s6 --max-time 2 --interface "$i" ip.gs)
 
-        if [[ -n "$Public_IPv4" || -n "$Public_IPv6" ]]; then # 检查是否获取到IP地址
-            IPv4="$Public_IPv4"
-            IPv6="$Public_IPv6"
+        if [[ -n "$IPv4" || -n "$IPv6" ]]; then # 检查是否获取到IP地址
             break # 获取到任一IP类型停止循环
         fi
     done
