@@ -457,7 +457,7 @@ IPv6：${IPv6}
 }
 
 get_public_ip(){
-    InFaces=($(ls /sys/class/net | grep -E '^(eth|ens|eno|esp|enp|venet|vif)'))
+    InFaces=($(ls /sys/class/net | grep -E '^(eth|ens|eno|esp|enp|venet|veth|vif)'))
 
     for i in "${InFaces[@]}"; do # 从网口循环获取IP
         IPv4=$(curl -s4 --max-time 2 --interface "$i" ip.gs)
