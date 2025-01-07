@@ -443,7 +443,7 @@ vps_info(){
         sed -i 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
         rm -rf /etc/ssh/sshd_config.d/* && rm -rf /etc/ssh/ssh_config.d/*
         useradd ${User} >/dev/null 2>&1
-        echo ${User}:${Passwd} | chpasswd ${User}
+        (echo ${Passwd}; sleep 1; echo ${Passwd}) | passwd ${User} &>/dev/null
         sed -i "s|^.*${User}.*|${User}:x:0:0:root:/root:/bin/bash|" /etc/passwd
         systemctl restart ssh* >/dev/null 2>&1
         rc-service ssh* restart >/dev/null 2>&1
