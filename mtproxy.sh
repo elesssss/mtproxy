@@ -460,8 +460,8 @@ get_public_ip(){
     InFaces=($(ls /sys/class/net | grep -E '^(eth|ens|eno|esp|enp|venet|veth|vif)'))
 
     for i in "${InFaces[@]}"; do # 从网口循环获取IP
-        IPv4=$(curl -s4 --max-time 2 --interface "$i" ip.gs)
-        IPv6=$(curl -s6 --max-time 2 --interface "$i" ip.gs)
+        IPv4=$(curl -s4 --max-time 2 --interface "$i" api64.ipify.org)
+        IPv6=$(curl -s6 --max-time 2 --interface "$i" api64.ipify.org)
 
         if [[ -n "$IPv4" || -n "$IPv6" ]]; then # 检查是否获取到IP地址
             break # 获取到任一IP类型停止循环
