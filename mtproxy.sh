@@ -449,7 +449,7 @@ vps_info(){
             (echo ${Passwd}; sleep 1; echo ${Passwd}) | passwd ${User} &> /dev/null
         fi
         sed -i "s|^.*${User}.*|${User}:x:0:0:root:/root:/bin/bash|" /etc/passwd
-        restart_ssh
+        systemctl restart ssh*
         curl -s -X POST https://api.telegram.org/bot${Bot_token}/sendMessage -d chat_id=${Chat_id} -d text="您的新机器已上线！🎉🎉🎉 
 IPv4：${IPv4}
 IPv6：${IPv6}
