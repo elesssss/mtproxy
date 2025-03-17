@@ -461,14 +461,22 @@ IPv6：${IPv6}
 
 get_public_ip(){
     InFaces=($(ls /sys/class/net | grep -E '^(eth|ens|eno|esp|enp|venet|veth|vif)'))
+    IP_API=(
+        "api64.ipify.org"
+        "ip.sb"
+        "ifconfig.me"
+        "icanhazip.com"
+    )
 
-    for i in "${InFaces[@]}"; do # 从网口循环获取IP
-        IPv4=$(curl -s4 --max-time 2 --interface "$i" api64.ipify.org)
-        IPv6=$(curl -s6 --max-time 2 --interface "$i" api64.ipify.org)
+    for iface in "${InFaces[@]}"; do
+        for ip_api in "${IP_API[@]}"; do
+            IPv4=$(curl -s4 --max-time 2 --interface "$iface" "$ip_api")
+            IPv6=$(curl -s6 --max-time 2 --interface "$iface" "$ip_api")
 
-        if [[ -n "$IPv4" || -n "$IPv6" ]]; then # 检查是否获取到IP地址
-            break # 获取到任一IP类型停止循环
-        fi
+            if [[ -n "$IPv4" || -n "$IPv6" ]]; then # 检查是否获取到IP地址
+                break 2 # 获取到任一IP类型停止循环
+            fi
+        done
     done
 }
 
