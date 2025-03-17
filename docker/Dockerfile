@@ -8,7 +8,7 @@ RUN apk update \
 
 WORKDIR /usr/local/mtproxy/
 COPY docker/mtproxy.py ./
-COPY docker/config.py /etc/mtproxy
+COPY docker/config.json /etc/mtproxy
 COPY docker/docker-entrypoint /usr/bin/
 RUN chmod +x /usr/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]
