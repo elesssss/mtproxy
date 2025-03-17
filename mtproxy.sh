@@ -13,11 +13,11 @@ Info="${Green}[信息]${Nc}"
 Error="${Red}[错误]${Nc}"
 Tip="${Yellow}[提示]${Nc}"
 
-mtproxy_dir="/var/mtproxy"
-mtproxy_file="${mtproxy_dir}/mtproxy.py"
-mtproxy_conf="${mtproxy_dir}/config.py"
-mtproxy_ini="${mtproxy_dir}/config.ini"
-mtproxy_log="${mtproxy_dir}/log_mtproxy.log"
+mtp_dir="/var/mtproxy"
+mtp_file="${mtp_dir}/mtproxy.py"
+mtp_conf="${mtp_dir}/config.json"
+mtp_info="${mtp_dir}/mtp_info"
+mtp_log="${mtp_dir}/log_mtproxy.log"
 
 
 # 检查是否为root用户
@@ -132,22 +132,22 @@ check_pid(){
 
 # 检查是否安装MTProxy
 check_installed_status(){
-    if [[ ! -e "${mtproxy_file}" ]]; then
+    if [[ ! -e "${mtp_file}" ]]; then
         echo -e "${Error} MTProxy 没有安装，请检查 !"
         exit 1
     fi
 }
 
 Download(){
-    if [[ ! -e "${mtproxy_dir}" ]]; then
-        mkdir "${mtproxy_dir}"
+    if [[ ! -e "${mtp_dir}" ]]; then
+        mkdir "${mtp_dir}"
     fi
     get_public_ip
-    cd "${mtproxy_dir}"
+    cd "${mtp_dir}"
     echo -e "${Info} 开始下载/安装..."
     curl -sO https://raw.githubusercontent.com/elesssss/mtproxy/main/mtproxy.py
 
-    cat >${mtproxy_conf} <<-EOF
+    cat >${mtp_conf} <<-EOF
 PORT = 443
 
 # 密匙 -> secret（32 个十六进制字符）
@@ -176,7 +176,7 @@ MODES = {
 # AD_TAG = ""
 EOF
 
-cat >${mtproxy_ini} <<-EOF
+cat >${mtp_info} <<-EOF
 IPv4=$IPv4
 IPv6=$IPv6
 PORT=443
@@ -195,7 +195,7 @@ Write_Service(){
 name="mtproxy"
 description="mtproxy service"
 command="/bin/sh"
-command_args="-c 'python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.py > /var/mtproxy/log_mtproxy.log'"
+command_args="-c 'python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.json > /var/mtproxy/log_mtproxy.log'"
 command_background="yes"
 pidfile="/var/run/${RC_SVCNAME}.pid"
 start_stop_daemon_args="--user root:root"
@@ -212,7 +212,7 @@ After=network.target
 User=root
 Group=root
 WorkingDirectory=/var/mtproxy
-ExecStart=python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.py
+ExecStart=python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.json
 Restart=on-failure
 RestartSec=5s
 
@@ -224,11 +224,11 @@ systemctl enable mtproxy
 }
 
 Read_config(){
-    IPv4=$(cat ${mtproxy_ini} | grep 'IPv4=' | cut -d'=' -f2 | grep -P '[.]')
-    IPv6=$(cat ${mtproxy_ini} | grep 'IPv6=' | cut -d'=' -f2 | grep -P '[:]')
-    PORT=$(cat ${mtproxy_ini} | grep 'PORT=' | cut -d'=' -f2)
-    SECURE=$(cat ${mtproxy_ini} | grep 'SECURE=' | cut -d'=' -f2)
-    TAG=$(cat ${mtproxy_ini} | grep 'TAG=' | cut -d'=' -f2)
+    IPv4=$(cat ${mtp_info} | grep 'IPv4=' | cut -d'=' -f2 | grep -P '[.]')
+    IPv6=$(cat ${mtp_info} | grep 'IPv6=' | cut -d'=' -f2 | grep -P '[:]')
+    PORT=$(cat ${mtp_info} | grep 'PORT=' | cut -d'=' -f2)
+    SECURE=$(cat ${mtp_info} | grep 'SECURE=' | cut -d'=' -f2)
+    TAG=$(cat ${mtp_info} | grep 'TAG=' | cut -d'=' -f2)
 }
 
 Set_port(){
@@ -245,8 +245,8 @@ Set_port(){
             echo "输入错误, 请输入正确的端口。"
         fi
     done
-    sed -i "s/^#\?PORT.*/PORT = $mtp_port/g" $mtproxy_conf
-    sed -i "s/^#\?PORT.*/PORT=$mtp_port/g" $mtproxy_ini
+    sed -i "s/^#\?PORT.*/PORT = $mtp_port/g" $mtp_conf
+    sed -i "s/^#\?PORT.*/PORT=$mtp_port/g" $mtp_info
 }
 
 Set_passwd(){
@@ -255,7 +255,7 @@ Set_passwd(){
     if [[ -z "${mtp_passwd}" ]]; then
         mtp_passwd=$(openssl rand -hex 16)
     fi
-    sed -i 's/^#\?.*user".*/    "user": "'"$mtp_passwd"'",/g' $mtproxy_conf
+    sed -i 's/^#\?.*user".*/    "user": "'"$mtp_passwd"'",/g' $mtp_conf
 
     read -e -p "(是否开启TLS伪装？[Y/n]):" mtp_tls
     [[ -z "${mtp_tls}" ]] && mtp_tls="Y"
@@ -263,19 +263,19 @@ Set_passwd(){
         echo -e "${Tip} 请输入TLS伪装域名 $Red(无法使用被墙的域名。)$Nc"
         read -e -p "(默认：itunes.apple.com):" fake_domain
         [[ -z "${fake_domain}" ]] && fake_domain="itunes.apple.com"
-        sed -i 's/^#\?.*secure.*/    "secure": False,/g' $mtproxy_conf
-        sed -i 's/^#\?.*tls.*/    "tls": True/g' $mtproxy_conf
-        sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$fake_domain"'"/g' $mtproxy_conf
+        sed -i 's/^#\?.*secure.*/    "secure": False,/g' $mtp_conf
+        sed -i 's/^#\?.*tls.*/    "tls": True/g' $mtp_conf
+        sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$fake_domain"'"/g' $mtp_conf
         mtp_secure="ee${mtp_passwd}$(echo -n $fake_domain | xxd -ps -c 200)"
-        sed -i "s/^#\?SECURE.*/SECURE=$mtp_secure/g" $mtproxy_ini
+        sed -i "s/^#\?SECURE.*/SECURE=$mtp_secure/g" $mtp_info
         echo && echo "========================"
         echo -e "  密匙 : ${Red_globa} ${mtp_secure} ${Nc}"
         echo "========================" && echo
     else
-        sed -i 's/^#\?.*secure.*/    "secure": True,/g' $mtproxy_conf
-        sed -i 's/^#\?.*tls.*/    "tls": False/g' $mtproxy_conf
+        sed -i 's/^#\?.*secure.*/    "secure": True,/g' $mtp_conf
+        sed -i 's/^#\?.*tls.*/    "tls": False/g' $mtp_conf
         mtp_secure="dd${mtp_passwd}"
-        sed -i "s/^#\?SECURE.*/SECURE=$mtp_secure/g" $mtproxy_ini
+        sed -i "s/^#\?SECURE.*/SECURE=$mtp_secure/g" $mtp_info
         echo && echo "========================"
         echo -e "  密匙 : ${Red_globa} ${mtp_secure} ${Nc}"
         echo "========================" && echo
@@ -289,11 +289,11 @@ Set_tag(){
         echo && echo "========================"
         echo -e "  TAG : ${Red_globa} ${mtp_tag} ${Nc}"
         echo "========================"
-        sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$mtp_tag"'"/g' $mtproxy_conf
-        sed -i "s/^#\?TAG.*/TAG=$mtp_tag/g" $mtproxy_ini
+        sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$mtp_tag"'"/g' $mtp_conf
+        sed -i "s/^#\?TAG.*/TAG=$mtp_tag/g" $mtp_info
     else
-        sed -i 's/^#\?.*AD_TAG.*/# AD_TAG = ""/g' $mtproxy_conf
-        sed -i "s/^#\?TAG.*/TAG=$mtp_tag/g" $mtproxy_ini
+        sed -i 's/^#\?.*AD_TAG.*/# AD_TAG = ""/g' $mtp_conf
+        sed -i "s/^#\?TAG.*/TAG=$mtp_tag/g" $mtp_info
     fi
 }
 
@@ -327,7 +327,7 @@ ${Green} 4.${Nc}  修改 全部配置" && echo
 }
 
 Install(){
-    [[ -e ${mtproxy_file} ]] && echo -e "${Error} 检测到 MTProxy 已安装 !" && exit 1
+    [[ -e ${mtp_file} ]] && echo -e "${Error} 检测到 MTProxy 已安装 !" && exit 1
     install_base
     Download
     vps_info
@@ -419,7 +419,7 @@ Uninstall(){
         else
             systemctl disable mtproxy.service >/dev/null 2>&1
         fi
-        rm -rf ${mtproxy_dir}  /lib/systemd/system/mtproxy.service /etc/init.d/mtproxy
+        rm -rf ${mtp_dir}  /lib/systemd/system/mtproxy.service /etc/init.d/mtproxy
         echo -e "${Info} MTProxy 卸载完成 !"
         echo
     else
@@ -535,7 +535,7 @@ ${Green} 7.${Nc} 查看 MTProxy链接
 ${Green} 8.${Nc} 查看 MTProxy日志
 ———————————————————————" && echo
 
-    if [[ -e ${mtproxy_file} ]]; then
+    if [[ -e ${mtp_file} ]]; then
         check_pid
         if [[ ! -z "${PID}" ]]; then
             echo -e " 当前状态: ${Green}已安装${Nc} 并 ${Green}已启动${Nc}"
