@@ -518,7 +518,7 @@ Esc_Shell(){
 
 backmenu(){
     echo ""
-    read -rp "请输入“y”退出, 或按任意键回到主菜单：" back2menuInput
+    read -rp "请输入“y”退出, 或按任意键回到主菜单：" backmenuInput
     case "$backmenuInput" in
         y) exit 1 ;;
         *) menu ;;
