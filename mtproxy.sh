@@ -15,7 +15,7 @@ Tip="${Yellow}[提示]${Nc}"
 
 mtp_dir="/var/mtproxy"
 mtp_file="${mtp_dir}/mtproxy.py"
-mtp_conf="${mtp_dir}/config.json"
+mtp_conf="${mtp_dir}/config.yaml"
 mtp_info="${mtp_dir}/mtp_info"
 mtp_log="${mtp_dir}/log_mtproxy.log"
 
@@ -195,7 +195,7 @@ Write_Service(){
 name="mtproxy"
 description="mtproxy service"
 command="/bin/sh"
-command_args="-c 'python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.json > /var/mtproxy/log_mtproxy.log'"
+command_args="-c 'python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.yaml > /var/mtproxy/log_mtproxy.log'"
 command_background="yes"
 pidfile="/var/run/${RC_SVCNAME}.pid"
 start_stop_daemon_args="--user root:root"
@@ -212,7 +212,7 @@ After=network.target
 User=root
 Group=root
 WorkingDirectory=/var/mtproxy
-ExecStart=python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.json
+ExecStart=python3 /var/mtproxy/mtproxy.py --config /var/mtproxy/config.yaml
 Restart=on-failure
 RestartSec=5s
 
