@@ -3,35 +3,35 @@
 if [ -z "$SECURE" ] && [ -z "$DOMAIN" ] && [ -z "$TAG" ]; then
     echo
 elif [ -z "$SECURE" ] && [ -n "$DOMAIN" ] && [ -z "$TAG" ]; then
-    sed -i 's/^#\?.*user".*/    "user": "'"a5ecde1baf7dea38916f1b2e53f2271a"'",/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*secure.*/    "secure": False,/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*tls.*/    "tls": True/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$DOMAIN"'"/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*AD_TAG.*/# AD_TAG = ""/g' /etc/mtproxy/config.json
+    sed -i 's/^#\?.*user".*/    "user": "'"a5ecde1baf7dea38916f1b2e53f2271a"'",/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*secure.*/    "secure": False,/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*tls.*/    "tls": True/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$DOMAIN"'"/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*AD_TAG.*/# AD_TAG = ""/g' /etc/mtproxy/config.yaml
 elif [ -z "$SECURE" ] && [ -n "$DOMAIN" ] && [ -n "$TAG" ]; then
-    sed -i 's/^#\?.*user".*/    "user": "'"a5ecde1baf7dea38916f1b2e53f2271a"'",/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*secure.*/    "secure": False,/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*tls.*/    "tls": True/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$DOMAIN"'"/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /etc/mtproxy/config.json
+    sed -i 's/^#\?.*user".*/    "user": "'"a5ecde1baf7dea38916f1b2e53f2271a"'",/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*secure.*/    "secure": False,/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*tls.*/    "tls": True/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$DOMAIN"'"/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /etc/mtproxy/config.yaml
 elif [ -n "$SECURE" ] && [ -z "$DOMAIN" ] && [ -n "$TAG" ]; then
-    sed -i 's/^#\?.*user".*/    "user": "'"$SECURE"'",/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*secure.*/    "secure": True,/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*tls.*/    "tls": False/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*TLS_DOMAIN.*/# TLS_DOMAIN = ""/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /etc/mtproxy/config.json
+    sed -i 's/^#\?.*user".*/    "user": "'"$SECURE"'",/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*secure.*/    "secure": True,/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*tls.*/    "tls": False/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*TLS_DOMAIN.*/# TLS_DOMAIN = ""/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /etc/mtproxy/config.yaml
 elif [ -n "$SECURE" ] && [ -z "$DOMAIN" ] && [ -z "$TAG" ]; then
-    sed -i 's/^#\?.*user".*/    "user": "'"$SECURE"'",/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*secure.*/    "secure": True,/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*tls.*/    "tls": False/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*TLS_DOMAIN.*/# TLS_DOMAIN = ""/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*AD_TAG.*/# AD_TAG = ""/g' /etc/mtproxy/config.json
+    sed -i 's/^#\?.*user".*/    "user": "'"$SECURE"'",/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*secure.*/    "secure": True,/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*tls.*/    "tls": False/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*TLS_DOMAIN.*/# TLS_DOMAIN = ""/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*AD_TAG.*/# AD_TAG = ""/g' /etc/mtproxy/config.yaml
 elif [ -n "$SECURE" ] && [ -n "$DOMAIN" ] && [ -n "$TAG" ]; then
-    sed -i 's/^#\?.*user".*/    "user": "'"$SECURE"'",/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*secure.*/    "secure": False,/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*tls.*/    "tls": True/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$DOMAIN"'"/g' /etc/mtproxy/config.json
-    sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /etc/mtproxy/config.json
+    sed -i 's/^#\?.*user".*/    "user": "'"$SECURE"'",/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*secure.*/    "secure": False,/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*tls.*/    "tls": True/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*TLS_DOMAIN.*/TLS_DOMAIN = "'"$DOMAIN"'"/g' /etc/mtproxy/config.yaml
+    sed -i 's/^#\?.*AD_TAG.*/AD_TAG = "'"$TAG"'"/g' /etc/mtproxy/config.yaml
 fi
 
 exec python3 /usr/local/mtproxy/mtproxy.py --config /etc/mtproxy/config.yaml
